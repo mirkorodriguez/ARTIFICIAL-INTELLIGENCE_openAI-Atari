@@ -7,13 +7,13 @@ import random
 # Environment: Space Invaders
 env = gym.make('SpaceInvaders-v0')
 height, width, channels = env.observation_space.shape
-print ("Observation space: ", env.observation_space)
+print("Observation space: ", env.observation_space)
 
 # Actions
 actions = env.action_space.n
 action_meanings = env.unwrapped.get_action_meanings()
-print ("Action space: ", env.action_space)
-print ("Action meanings: ", action_meanings)
+print("Action space: ", env.action_space)
+print("Action meanings: ", action_meanings)
 
 # Episodes
 episodes = 20
@@ -30,3 +30,4 @@ for episode in range(episodes):
         score += reward
     print('Episode:{} Score:{}'.format(episode+1, score))
 env.close()
+

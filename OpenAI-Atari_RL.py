@@ -2,11 +2,7 @@
 # Crear un modelo de RL para el juego
 # ===================================
 import warnings
-
 warnings.filterwarnings('ignore')
-
-# https://towardsdatascience.com/reinforcement-learning-with-openai-d445c2c687d2
-# https://miro.medium.com/max/926/0*7PvoCPJuUAblMdcn.png
 
 import gym
 import numpy as np
@@ -18,6 +14,10 @@ disable_eager_execution()
 
 # Environment: Space Invaders
 env = gym.make('SpaceInvaders-v0')
+# Observaciones
+height, width, channels = env.observation_space.shape
+# Acciones
+actions = env.action_space.n
 
 
 # Crear un modelo DL como base del agente
@@ -33,14 +33,14 @@ def build_model(height, width, channels, actions):
     return cnn_model
 
 
-# Observaciones
-height, width, channels = env.observation_space.shape
-# Acciones
-actions = env.action_space.n
 model = build_model(height, width, channels, actions)
 model.summary()
 
+
 # Construyendo el Agente con Keras-RL
+# https://keras-rl.readthedocs.io/en/latest/agents/overview/
+# Deep-Q Network
+# https://github.com/keras-rl/keras-rl/blob/master/rl/policy.py
 from rl.agents import DQNAgent
 from rl.memory import SequentialMemory
 from rl.policy import LinearAnnealedPolicy, EpsGreedyQPolicy
@@ -64,7 +64,7 @@ agent.fit(env, nb_steps=10000, visualize=False, verbose=2)
 
 
 # Save the model
-agent.save_weights('model_test/dqn_atari_agent_weights.h5f')
+agent.save_weights('model/dqn_atari_agent_weights.h5f')
 
 # =============================
 # Cargar el modelo RL entrenado
@@ -72,7 +72,7 @@ agent.save_weights('model_test/dqn_atari_agent_weights.h5f')
 
 # Load the model
 model_name = 'dqn_atari_agent_weights.h5f'
-agent.load_weights('model_test/' + model_name)
+agent.load_weights('model/' + model_name)
 print("Model {} loaded ...".format(model_name))
 
 # Test de model
